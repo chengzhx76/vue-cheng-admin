@@ -1,14 +1,15 @@
 import fetch from '@/utils/fetch'
+import md5 from 'md5'
 
 export function loginByUsername(username, password) {
-  const data = {
-    username,
-    password
-  }
   return fetch({
-    url: '/login/login',
-    method: 'post',
-    data
+    url: '/login/96847042.json',
+    method: 'get',
+    params: {
+      userName: username,
+      password: md5(password),
+      METHOD: 'GET'
+    }
   })
 }
 

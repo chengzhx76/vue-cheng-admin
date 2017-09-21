@@ -19,18 +19,20 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
       next({ path: '/' })
     } else {
+      console.log(store.getters.roles)
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
-        store.dispatch('GetUserInfo').then(res => { // 拉取user_info
-          const roles = res.data.role
-          store.dispatch('GenerateRoutes', { roles }).then(() => { // 生成可访问的路由表
-            router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-            next({ ...to }) // hack方法 确保addRoutes已完成
-          })
-        }).catch(() => {
-          store.dispatch('FedLogOut').then(() => {
-            next({ path: '/login' })
-          })
+        // store.dispatch('GetUserInfo').then(res => { // 拉取user_info
+        const roles = ['admin']
+        store.dispatch('GenerateRoutes', { roles }).then(() => { // 生成可访问的路由表
+          router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
+          // next({ ...to }) // hack方法 确保addRoutes已完成
+          next() // hack方法 确保addRoutes已完成
         })
+        // }).catch(() => {
+        //   store.dispatch('FedLogOut').then(() => {
+        //     next({ path: '/login' })
+        //   })
+        // })
       } else {
         // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
         if (hasPermission(store.getters.roles, to.meta.role)) {

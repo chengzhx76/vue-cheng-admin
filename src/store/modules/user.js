@@ -50,8 +50,13 @@ const user = {
       return new Promise((resolve, reject) => {
         loginByUsername(username, userInfo.password).then(response => {
           const data = response.data
-          setToken(response.data.token)
-          commit('SET_TOKEN', data.token)
+          const msg = data.message
+          const token = msg.substring(0, msg.lastIndexOf(','))
+          // const roles = msg.substring((msg.lastIndexOf(',')+1), msg.length)
+          setToken(token)
+          // 往Vuex的state里放值token
+          commit('SET_TOKEN', token)
+          // 不返回任何内容
           resolve()
         }).catch(error => {
           reject(error)
