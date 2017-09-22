@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import Hello from './../views/dashboard/Hello'
 import Success from './../views/dashboard/Success'
 import Error from './../views/dashboard/Error'
 import Layout from './../views/layout/Layout'
 import Login from './../views/login'
+
+import Chart from './../views/charts/TestChart'
+import Keyboard from './../views/charts/keyboard'
 
 Vue.use(Router)
 /**
@@ -104,18 +108,18 @@ export const asyncRouterMap = [
   {
     path: '/charts',
     component: Layout,
-    redirect: '/charts/index',
+    redirect: '/charts/chart',
     name: '图表',
     icon: 'quanxian',
     children: [
       {
-        path: 'index',
-        component: Success,
-        name: '介绍'
+        path: 'chart',
+        component: Chart,
+        name: '测试'
       },
       {
         path: 'keyboard',
-        component: Success,
+        component: Keyboard,
         name: '键盘图表'
       }
     ]
